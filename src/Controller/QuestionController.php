@@ -2,24 +2,37 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class QuestionController {
+class QuestionController extends AbstractController {
     /**
-     * @Route("/")
+     * @Route("/", name="app_homepage")
      */
     public function homepage() {
-        return new Response('coucou');
+        return $this->render('questions/homepage.html.twig');
     }
 
     /**
-     * @Route ("/questions/{slug}")
+     * @Route ("/questions/{slug}", name="app_question_show")
      */
     public function show($slug) {
-        return new Response(sprintf(
-            ucwords(str_replace('-', ' ', $slug)),
-            $slug
-        ));
+
+        $answers = [
+            'Make sure your cat is sitting purrrfectly still 🤣',
+            'Honestly, I like furry shoes better than MY cat',
+            'Maybe... try saying the spell backwards?',
+        ];
+
+        return $this->render('questions/show.html.twig', [
+            'question' => ucwords(str_replace('-', ' ', $slug)),
+            'answers' => $answers,
+        ]);
+
+        // return new Response(sprintf(
+        //     ucwords(str_replace('-', ' ', $slug)),
+        //     $slug
+        // ));
     }
 }
